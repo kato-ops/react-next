@@ -11,8 +11,8 @@ const App = () => {
         //fragmentは空のタグでもOK
         <>
             <h1>Todo App</h1>
-            <Form></Form>
-            <List></List>
+            <Form />
+            <List />
         </>
     );
 };
