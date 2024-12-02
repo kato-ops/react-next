@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 
 const Form = ({ addTodo }) => {
-    const [value, setValue] = useState("");
-    
+    const [text, setText] = useState("");
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        addTodo(value);
+        if (text.trim() === '') {
+            window.alert("入力欄が空です！");
+        }
+        else {
+            addTodo(text);
+        }
+        setText('');
     };
     //return前というか、jsxを()してreturnする必要がある。
     return (
@@ -14,8 +20,10 @@ const Form = ({ addTodo }) => {
         >
             <input
                 type="text"
+                //こうすることで、valueがStateの更新の際に変更される？
+                value={text}
                 onChange={e => {
-                    setValue(e.target.value);
+                    setText(e.target.value);
                 }} />
         </form>
     );

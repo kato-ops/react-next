@@ -8,14 +8,17 @@ const App = () => {
     const [todos, setTodos] = useState([]);
 
     const addTodo = content => {
-        if (content) {
-            setTodos([...todos, { content, id: nanoid() }]);
-
-            //追加処理の完了後、フォームの入力値がフォーム内に残ったままになっています。追加処理の完了後にフォームを空にしましょう。
-        }
-        else {
-            window.alert("入力欄が空です！");
-        }
+        setTodos([
+            ...todos,
+            {
+                content,
+                id: nanoid(),
+                //isDoneをtodosで管理したい？
+                //useStateでアップデートしないと描画更新されないみたいだけど、どうすんの？
+                //というか、stateの中身って直接弄っていいの？
+                //isDone: false
+            }
+        ]);
     };
     const deleteTodo = id => {
         setTodos(todos.filter(todo => todo.id !== id));
