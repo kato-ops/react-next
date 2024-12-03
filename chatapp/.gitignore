@@ -1,0 +1,28 @@
+# Node.js関連
+node_modules/
+
+# ログファイル
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ビルド成果物
+build/
+dist/
+
+# 環境変数ファイル
+.env
+.env.local
+.env.*.local
+
+# テストのカバレッジ結果
+coverage/
+
+# OSやエディタ固有のファイル
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ローカルの依存関係
+*.local
