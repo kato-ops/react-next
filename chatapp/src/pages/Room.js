@@ -1,6 +1,6 @@
 import { React, useEffect, useState, useContext } from "react";
 import { signOut } from "firebase/auth";
-import { collection, onSnapshot, addDoc } from "firebase/firestore";
+import { collection, onSnapshot, addDoc, Timestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { AuthContext } from "../AuthService";
 import { nanoid } from "nanoid";
@@ -11,7 +11,10 @@ const Room = () => {
 
     useEffect(() => {
         onSnapshot(collection(db, "messages"), snapshot => {
-            const messages = snapshot.docs.map(doc => doc.data());
+            const messages = snapshot.docs
+                .map(doc => doc.data())
+                .toSorted((a, b) => a.date.toDate() - b.date.toDate());
+            console.log(messages);
             setMessages(messages);
         });
     }, []);
@@ -21,7 +24,8 @@ const Room = () => {
         e.preventDefault();
         addDoc(collection(db, "messages"), {
             content: value,
-            user: user.displayName
+            user: user.displayName,
+            date: Timestamp.fromDate(new Date())
         });
         setValue("");
     };
@@ -31,6 +35,7 @@ const Room = () => {
             <h1>Room</h1>
             <ul>
                 {
+                    //cssで実装？
                     messages.map(massage =>
                         <li key={nanoid()}>
                             {massage.user}:{massage.content}
