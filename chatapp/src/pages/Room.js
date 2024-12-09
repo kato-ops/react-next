@@ -14,7 +14,6 @@ const Room = () => {
             const messages = snapshot.docs
                 .map(doc => doc.data())
                 .toSorted((a, b) => a.date.toDate() - b.date.toDate());
-            console.log(messages);
             setMessages(messages);
         });
     }, []);
