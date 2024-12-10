@@ -14,6 +14,7 @@ const Item = ({ content, completed, id, deleteTodo, toggleCompleted }) => {
         <li>
             <input
                 type="checkbox"
+                checked={completed}
                 onChange={handleCheck}
             />
             {/* jsx内ではJSの処理を使うには{}で括る必要がある */}
