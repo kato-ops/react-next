@@ -3,7 +3,8 @@ import { signOut } from "firebase/auth";
 import { collection, onSnapshot, addDoc, Timestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { AuthContext } from "../AuthService";
-import { nanoid } from "nanoid";
+
+import styles from "./Room.module.css"
 
 const Room = () => {
     const [messages, setMessages] = useState([]);
@@ -30,27 +31,34 @@ const Room = () => {
     };
 
     return (
-        <>
-            <h1>Room</h1>
-            <ul>
+        <div className={styles.container}>
+            <h1 className={styles.header}>Room</h1>
+            <ul className={styles.messageList}>
                 {
-                    //cssで実装？
-                    messages.map(massage =>
-                        <li key={nanoid()}>
+                    messages.map((massage, index) =>
+                        <li key={index}
+                            className={styles.messageItem}
+                        >
                             {massage.user}:{massage.content}
                         </li>)
                 }
             </ul>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <input
                     type="text"
                     value={value}
                     onChange={e => setValue(e.target.value)}
+                    className={styles.input}
                 />
-                <button type="submit">送信</button>
+                <button type="submit" className={styles.submitButton}>送信</button>
             </form>
-            <button onClick={() => signOut(auth)}>Logout</button>
-        </>
+            <button
+                onClick={() => signOut(auth)}
+                className={styles.logoutButton}
+            >
+                Logout
+            </button>
+        </div>
     );
 };
 
