@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 //useStateはReact.useStateのオブジェクトだが、{}で取り出すことでそのまま使える。
 
-const Item = ({ content, deleteTodo ,id}) => {
-    const [isDone, setIsDone] = useState(false);
-
+const Item = ({ content, completed, id, deleteTodo, toggleCompleted }) => {
     const handleDelete = () => {
         deleteTodo(id);
+    };
+    const handleCheck = () => {
+        toggleCompleted(id);
     };
     // useState(初期値) => [現在の状態の参照,状態を更新する関数]
     //この関数で状態を更新すると、描画も更新される。
@@ -13,14 +14,12 @@ const Item = ({ content, deleteTodo ,id}) => {
         <li>
             <input
                 type="checkbox"
-                onChange={() => {
-                    setIsDone(!isDone);
-                }}
+                onChange={handleCheck}
             />
             {/* jsx内ではJSの処理を使うには{}で括る必要がある */}
             <span
                 style={
-                    { textDecoration: isDone ? "line-through" : "none" }
+                    { textDecoration: completed ? "line-through" : "none" }
                 }
             >{content}</span>
             <button onClick={handleDelete}>削除</button>

@@ -13,15 +13,21 @@ const App = () => {
             {
                 content,
                 id: nanoid(),
-                //isDoneをtodosで管理したい？
-                //useStateでアップデートしないと描画更新されないみたいだけど、どうすんの？
-                //というか、stateの中身って直接弄っていいの？
-                //isDone: false
+                completed: false
             }
         ]);
     };
     const deleteTodo = id => {
         setTodos(todos.filter(todo => todo.id !== id));
+    };
+    const toggleCompleted = id => {
+        //map直接渡すでも良いが、コールバックの方が最新のデータを参照するのでバグが起きにくいらしい。
+        setTodos(prevTodos =>
+            prevTodos.map(todo =>
+                //スプレット構文後のメンバを書き換えると、その値に上書きされる。
+                todo.id === id ? { ...todo, completed: !todo.completed } : todo
+            )
+        );
     };
 
     return (
@@ -32,7 +38,7 @@ const App = () => {
         <>
             <h1>Todo App</h1>
             <Form addTodo={addTodo} />
-            <List todos={todos} deleteTodo={deleteTodo} />
+            <List todos={todos} deleteTodo={deleteTodo} toggleCompleted={toggleCompleted} />
         </>
     );
 };
