@@ -10,9 +10,4 @@
         padding: 1px;
         font-size: 20px;
     }
-
-    & .hit-num {
-        background-color: black;
-        color: rgb(70, 206, 216);
-    }
 }

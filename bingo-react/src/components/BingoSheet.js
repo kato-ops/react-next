@@ -14,9 +14,7 @@ const createRandArray = (len, min, max) => {
     return arr;
 };
 
-//現在、1h20m
-//解析すること
-const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+const transpose = array => array[0].map((_, column) => array.map(row => row[column]));
 
 const BingoSheet = () => {
     const newSheet = transpose(Array(5).fill(0).map((_, columnIndex) => {
@@ -39,8 +37,29 @@ const BingoSheet = () => {
 
     const [sheet, setSheet] = useState(newSheet);
 
+    const [restItem, setRestItem] = useState(Array(75).fill(0).map((_, i) => i + 1));
 
-    const rest = new Array(75).fill(0).map((_, i) => i + 1);
+    const rollItem = () => {
+        if (restItem.length !== 0) {
+            const hitIndex = Math.floor(Math.random() * restItem.length);
+            const hitItem = restItem[hitIndex];
+            setRestItem(restItem.toSpliced(hitIndex, 1));
+
+            window.alert(`数字は${hitItem}番です！`);
+            const hitCell = sheet.flat().find(({ item }) => item === hitItem);
+            if (hitCell) {
+                setSheet(sheet.map(row => row.map(cell => {
+                    if (cell.item === hitItem) {
+                        cell.isHit = true;
+                    }
+                    return cell;
+                })));
+            }
+        }
+        else {
+            window.alert("もう終わりです！");
+        }
+    }
 
     return (
         <>
@@ -59,9 +78,11 @@ const BingoSheet = () => {
                             return (
                                 <tr>
                                     {
-                                        row.map((cell) => (
+                                        row.map((cell, index) => (
                                             <Cell
-                                                test={cell.item}
+                                                item={cell.item}
+                                                isHit={cell.isHit}
+                                                key={`cell_${index}`}
                                             />
                                         ))
                                     }
@@ -70,7 +91,11 @@ const BingoSheet = () => {
                         })
                     }
                 </table>
-                <button>セット</button>
+                <button
+                    onClick={rollItem}
+                >
+                    セット
+                </button>
             </div>
         </>
     );
