@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent } from "react";
+import { useEffect, useState, KeyboardEvent } from "react";
 
 import { CellContent } from "@/types/spreadsheet";
 
@@ -11,6 +11,12 @@ export default function Cell({ content: initialContent, onChange }: Props) {
     //<>はジェネリクス。定義時に枠を作ってると使用時に型指定できる。
     const [editing, setEditing] = useState<boolean>(false);
     const [content, setContent] = useState<CellContent>(initialContent);
+
+    //Spreadsheet側から値がわたってきた際に再設定されるよう指定
+    useEffect(() => {
+        setContent(initialContent)
+        //initialContentの値が変更されたタイミングのレンダリング時に処理される
+    }, [initialContent])
 
     const handleClickCell = () => {
         if (editing === true) {
@@ -28,6 +34,12 @@ export default function Cell({ content: initialContent, onChange }: Props) {
             setContent(initialContent);
         }
     };
+    const evaluateFormula = (expression: string): number => {
+        //最初の=を除いた+-*%/0~9以外を消す処理
+        const sanitized = expression.slice(1).replace(/[^\+\-\*%/0-9]/g, '');
+        //計算式をjavascriptの計算として処理
+        return eval(sanitized);
+    };
 
     return (
         <td onClick={handleClickCell}>
@@ -41,7 +53,9 @@ export default function Cell({ content: initialContent, onChange }: Props) {
                         onKeyDown={handleKeyDown}
                         onChange={(e) => setContent(e.target.value)}
                     />)
-                    : initialContent
+                    : content.toString().startsWith("=") ?
+                        evaluateFormula(content.toString())
+                        : initialContent
             }
         </td >
     );
