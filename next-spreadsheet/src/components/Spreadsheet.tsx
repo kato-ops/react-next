@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { CellContent } from "@/types/spreadsheet";
 
 import styles from "@/styles/Spreadsheet.module.css";
-import Cell from "./cell";
+import Cell from "./Cell";
 
 export default function Spreadsheet() {
     const [cellContents, setCellContents] = useState<Array<Array<CellContent>>>([

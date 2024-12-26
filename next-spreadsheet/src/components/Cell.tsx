@@ -48,6 +48,7 @@ export default function Cell({ content: initialContent, onChange }: Props) {
                     <input
                         value={content}
                         //これでオブジェクトが出来た段階で自動的にフォーカスが当たる
+                        //オブジェクトのDomがrefにはいるので、そこにフォーカスさせてる
                         ref={input => input ? input.focus() : undefined}
                         onClick={(e) => { e.stopPropagation() }}
                         onKeyDown={handleKeyDown}
