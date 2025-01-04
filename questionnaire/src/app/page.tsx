@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 type Inputs = {
   name: string;
-  birth: number;
+  birth: string;
   isLearning: string;
   wasLearning: string;
   langs: string;
@@ -73,7 +73,7 @@ export default function Home() {
             <label htmlFor="birth">Q2. 生年月日を入力してください。(例： 19900101)</label>
             <Controller
               name="birth"
-              defaultValue={19900101}
+              defaultValue=""
               control={control}
               rules={{ required: true, pattern: /^[0-9]{8}$/ }}
               render={
